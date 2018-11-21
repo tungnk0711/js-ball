@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body style="background-color: gray" onload="animate();">
+
+<canvas id="bouncyBall" width="500" height="400"
+        style="border-style: inset; background-color: lightgray; border-width: 5px"></canvas>
+
+<script>
+    var centerX = 50; // vi tri hien tai
+    var centerY = 50; // vi tri hien tai
+    var radius = 20; // ban kinh
+    var boardX = 500; // chieu rong khung
+    var boardY = 400; // chieu cao khung
+    var ballDx = 2; // huong di
+    var ballDy = 2; // huong di
+
+    var Ball = function (ballDx, ballDy, radius) {
+
+        this.ballDx = ballDx;
+        this.ballDy = ballDy;
+        this.radius = radius;
+
+        this.drawBall = function () {
+            var canvas = document.getElementById('bouncyBall');
+            var ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            centerX = centerX + this.ballDx;
+            centerY = centerY + this.ballDy;
+
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, this.radius, 0, Math.PI * 2, false);
+            ctx.stroke();
+            ctx.fillStyle = "blue";
+            ctx.fill();
+
+            if (centerY > boardY - this.radius || centerY - this.radius < 0) {
+                this.ballDy = -1 * this.ballDy;
+            }
+
+            if (centerX > boardX - this.radius || centerX - this.radius < 0) {
+                this.ballDx = -1 * this.ballDx;
+            }
+        }
+    };
+
+
+    function animate() {
+        var ball = new Ball(ballDx, ballDy, radius);
+        setInterval(ball.drawBall, 20);
+    }
+</script>
+</body>
+</html>
